@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New AccountingMonth{% endblock %}
+
+{% block body %}
+    <h1>Create new AccountingMonth</h1>
+
+    {{ include('accounting_month/_form.html.twig') }}
+
+    <a href="{{ path('app_accounting_month_index') }}">back to list</a>
+{% endblock %}

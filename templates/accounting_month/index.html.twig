@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}AccountingMonth index{% endblock %}
+
+{% block body %}
+    <h1>AccountingMonth index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Label</th>
+                <th>StartAt</th>
+                <th>EndAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for accounting_month in accounting_months %}
+            <tr>
+                <td>{{ accounting_month.id }}</td>
+                <td>{{ accounting_month.label }}</td>
+                <td>{{ accounting_month.startAt ? accounting_month.startAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ accounting_month.endAt ? accounting_month.endAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_accounting_month_show', {'id': accounting_month.id}) }}">show</a>
+                    <a href="{{ path('app_accounting_month_edit', {'id': accounting_month.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_accounting_month_new') }}">Create new</a>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'layouts/main.html.twig' %}
+
+{% block title %}AccountingYear index{% endblock %}
+
+{% block main %}
+    <h1>AccountingYear index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>StartAt</th>
+                <th>EndAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for accounting_year in accounting_years %}
+            <tr>
+                <td>{{ accounting_year.id }}</td>
+                <td>{{ accounting_year.startAt ? accounting_year.startAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ accounting_year.endAt ? accounting_year.endAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a class="btn btn-primary btn-sm" href="{{ path('app_accounting_year_show', {'id': accounting_year.id}) }}">Voir</a>
+                    <a class="btn btn-primary btn-sm" href="{{ path('app_accounting_year_edit', {'id': accounting_year.id}) }}">Editer</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_accounting_year_new') }}" class="btn btn-primary">Nouveau</a>
+{% endblock %}

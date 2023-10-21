@@ -39,11 +39,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'owner', targetEntity: AccountingPlanned::class, orphanRemoval: true)]
     private Collection $accountingPlanneds;
 
+    #[ORM\OneToMany(mappedBy: 'owner', targetEntity: AccountingYear::class, orphanRemoval: true)]
+    private Collection $accountingYears;
+
     public function __construct()
     {
         $this->accountingMonths = new ArrayCollection();
         $this->accountingEntries = new ArrayCollection();
         $this->accountingPlanneds = new ArrayCollection();
+        $this->accountingYears = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -200,6 +204,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($accountingPlanned->getOwner() === $this) {
                 $accountingPlanned->setOwner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, AccountingYear>
+     */
+    public function getAccountingYears(): Collection
+    {
+        return $this->accountingYears;
+    }
+
+    public function addAccountingYear(AccountingYear $accountingYear): static
+    {
+        if (!$this->accountingYears->contains($accountingYear)) {
+            $this->accountingYears->add($accountingYear);
+            $accountingYear->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAccountingYear(AccountingYear $accountingYear): static
+    {
+        if ($this->accountingYears->removeElement($accountingYear)) {
+            // set the owning side to null (unless already changed)
+            if ($accountingYear->getOwner() === $this) {
+                $accountingYear->setOwner(null);
             }
         }
 

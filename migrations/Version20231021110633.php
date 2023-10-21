@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20231021104314 extends AbstractMigration
+final class Version20231021110633 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -26,7 +26,7 @@ final class Version20231021104314 extends AbstractMigration
         $this->addSql('CREATE TABLE accounting_planned (id INT AUTO_INCREMENT NOT NULL, accounting_month_id INT NOT NULL, accounting_category_id INT NOT NULL, owner_id INT NOT NULL, label VARCHAR(255) NOT NULL, amount INT NOT NULL, description LONGTEXT DEFAULT NULL, is_income TINYINT(1) NOT NULL, INDEX IDX_580D3F07B2889016 (accounting_month_id), INDEX IDX_580D3F076EF92732 (accounting_category_id), INDEX IDX_580D3F077E3C61F9 (owner_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE accounting_tag (id INT AUTO_INCREMENT NOT NULL, label VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE accounting_tag_accounting_entry (accounting_tag_id INT NOT NULL, accounting_entry_id INT NOT NULL, INDEX IDX_76DF9A3A319C96F2 (accounting_tag_id), INDEX IDX_76DF9A3A2B264B0 (accounting_entry_id), PRIMARY KEY(accounting_tag_id, accounting_entry_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE accounting_year (id INT AUTO_INCREMENT NOT NULL, start_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', end_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE accounting_year (id INT AUTO_INCREMENT NOT NULL, owner_id INT NOT NULL, start_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', end_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', INDEX IDX_F9186DA77E3C61F9 (owner_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE `user` (id INT AUTO_INCREMENT NOT NULL, email VARCHAR(180) NOT NULL, roles JSON NOT NULL, password VARCHAR(255) NOT NULL, UNIQUE INDEX UNIQ_8D93D649E7927C74 (email), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE messenger_messages (id BIGINT AUTO_INCREMENT NOT NULL, body LONGTEXT NOT NULL, headers LONGTEXT NOT NULL, queue_name VARCHAR(190) NOT NULL, created_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', available_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', delivered_at DATETIME DEFAULT NULL COMMENT \'(DC2Type:datetime_immutable)\', INDEX IDX_75EA56E0FB7336F0 (queue_name), INDEX IDX_75EA56E0E3BD61CE (available_at), INDEX IDX_75EA56E016BA31DB (delivered_at), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('ALTER TABLE accounting_category ADD CONSTRAINT FK_BEC83433727ACA70 FOREIGN KEY (parent_id) REFERENCES accounting_category (id)');
@@ -40,6 +40,7 @@ final class Version20231021104314 extends AbstractMigration
         $this->addSql('ALTER TABLE accounting_planned ADD CONSTRAINT FK_580D3F077E3C61F9 FOREIGN KEY (owner_id) REFERENCES `user` (id)');
         $this->addSql('ALTER TABLE accounting_tag_accounting_entry ADD CONSTRAINT FK_76DF9A3A319C96F2 FOREIGN KEY (accounting_tag_id) REFERENCES accounting_tag (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE accounting_tag_accounting_entry ADD CONSTRAINT FK_76DF9A3A2B264B0 FOREIGN KEY (accounting_entry_id) REFERENCES accounting_entry (id) ON DELETE CASCADE');
+        $this->addSql('ALTER TABLE accounting_year ADD CONSTRAINT FK_F9186DA77E3C61F9 FOREIGN KEY (owner_id) REFERENCES `user` (id)');
     }
 
     public function down(Schema $schema): void
@@ -56,6 +57,7 @@ final class Version20231021104314 extends AbstractMigration
         $this->addSql('ALTER TABLE accounting_planned DROP FOREIGN KEY FK_580D3F077E3C61F9');
         $this->addSql('ALTER TABLE accounting_tag_accounting_entry DROP FOREIGN KEY FK_76DF9A3A319C96F2');
         $this->addSql('ALTER TABLE accounting_tag_accounting_entry DROP FOREIGN KEY FK_76DF9A3A2B264B0');
+        $this->addSql('ALTER TABLE accounting_year DROP FOREIGN KEY FK_F9186DA77E3C61F9');
         $this->addSql('DROP TABLE accounting_category');
         $this->addSql('DROP TABLE accounting_entry');
         $this->addSql('DROP TABLE accounting_month');

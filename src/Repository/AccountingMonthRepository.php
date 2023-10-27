@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\AccountingMonth;
+use App\Entity\AccountingYear;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -21,28 +22,42 @@ class AccountingMonthRepository extends ServiceEntityRepository
         parent::__construct($registry, AccountingMonth::class);
     }
 
-//    /**
-//     * @return AccountingMonth[] Returns an array of AccountingMonth objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('a.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * @return AccountingMonth[] Returns an array of AccountingMonth objects
+     */
+    public function findByYear(AccountingYear $year): array
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.accountingYear = :val')
+            ->setParameter('val', $year)
+            ->orderBy('a.id', 'ASC')
+            ->setMaxResults(12)
+            ->getQuery()
+            ->getResult();
+    }
 
-//    public function findOneBySomeField($value): ?AccountingMonth
-//    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    //    /**
+    //     * @return AccountingMonth[] Returns an array of AccountingMonth objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('a')
+    //            ->andWhere('a.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('a.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
+
+    //    public function findOneBySomeField($value): ?AccountingMonth
+    //    {
+    //        return $this->createQueryBuilder('a')
+    //            ->andWhere('a.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 }

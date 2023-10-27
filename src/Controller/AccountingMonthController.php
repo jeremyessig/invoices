@@ -26,6 +26,7 @@ class AccountingMonthController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $accountingMonth = new AccountingMonth();
+        $accountingMonth->setOwner($this->getUser());
         $form = $this->createForm(AccountingMonthType::class, $accountingMonth);
         $form->handleRequest($request);
 
@@ -71,7 +72,7 @@ class AccountingMonthController extends AbstractController
     #[Route('/{id}', name: 'app_accounting_month_delete', methods: ['POST'])]
     public function delete(Request $request, AccountingMonth $accountingMonth, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$accountingMonth->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $accountingMonth->getId(), $request->request->get('_token'))) {
             $entityManager->remove($accountingMonth);
             $entityManager->flush();
         }

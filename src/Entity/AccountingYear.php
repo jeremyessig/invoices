@@ -21,12 +21,15 @@ class AccountingYear
     #[ORM\Column]
     private ?\DateTimeImmutable $endAt = null;
 
-    #[ORM\OneToMany(mappedBy: 'accounting_year', targetEntity: AccountingMonth::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'accountingYear', targetEntity: AccountingMonth::class, orphanRemoval: true)]
     private Collection $accountingMonths;
 
     #[ORM\ManyToOne(inversedBy: 'accountingYears')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $owner = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $label = null;
 
     public function __construct()
     {
@@ -102,5 +105,22 @@ class AccountingYear
         $this->owner = $owner;
 
         return $this;
+    }
+
+    public function getLabel(): ?string
+    {
+        return $this->label;
+    }
+
+    public function setLabel(string $label): static
+    {
+        $this->label = $label;
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->getLabel();
     }
 }

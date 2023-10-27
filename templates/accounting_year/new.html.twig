@@ -1,11 +1,10 @@
-{% extends 'base.html.twig' %}
+{% extends 'layouts/_main.html.twig' %}
 
-{% block title %}New AccountingYear{% endblock %}
+{% block title %}Nouvelle année{% endblock %}
 
-{% block body %}
-    <h1>Create new AccountingYear</h1>
+{% block main %}
+    <h1 class="h1">Nouvelle année fiscale</h1>
 
     {{ include('accounting_year/_form.html.twig') }}
 
-    <a href="{{ path('app_accounting_year_index') }}">back to list</a>
 {% endblock %}

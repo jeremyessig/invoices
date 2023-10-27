@@ -1,4 +1,21 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+<div class="row">
+<div class="col-8">
+    {{ form_row(form.label) }}
+</div>
+<div class="col-4">
+    {{ form_row(form.monthAutoGenerate) }}
+</div>
+<div class="col-6">
+    {{ form_row(form.startAt) }}
+</div>
+<div class="col-6">
+    {{ form_row(form.endAt) }}
+</div>
+
+</div>
+<div class="hstack">
+    <a class="btn btn-primary" href="{{ path('app_accounting_year_index') }}">Retour</a>
+    <button class="btn btn-primary ms-auto">{{ button_label|default('Enregistrer') }}</button>
+</div>
 {{ form_end(form) }}

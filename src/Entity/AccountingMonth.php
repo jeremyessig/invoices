@@ -26,7 +26,7 @@ class AccountingMonth
 
     #[ORM\ManyToOne(inversedBy: 'accountingMonths')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?AccountingYear $accounting_year = null;
+    private ?AccountingYear $accountingYear = null;
 
     #[ORM\ManyToOne(inversedBy: 'accountingMonths')]
     #[ORM\JoinColumn(nullable: false)]
@@ -87,12 +87,12 @@ class AccountingMonth
 
     public function getAccountingYear(): ?AccountingYear
     {
-        return $this->accounting_year;
+        return $this->accountingYear;
     }
 
-    public function setAccountingYear(?AccountingYear $accounting_year): static
+    public function setAccountingYear(?AccountingYear $accountingYear): static
     {
-        $this->accounting_year = $accounting_year;
+        $this->accountingYear = $accountingYear;
 
         return $this;
     }
@@ -167,5 +167,10 @@ class AccountingMonth
         }
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->getLabel();
     }
 }

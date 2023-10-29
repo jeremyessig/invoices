@@ -64,11 +64,12 @@ class AccountingYearController extends AbstractController
         ]);
     }
 
+
     #[Route('/{id}/month', name: 'app_accounting_year_month_show', methods: ['GET'])]
     public function monthIndex(AccountingYear $accountingYear): Response
     {
         $accountingMonth = $this->accountingMonthRepository->findByYear($accountingYear);
-        return $this->render('accounting_month/index.html.twig', [
+        return $this->render('accounting_year/months.html.twig', [
             'accounting_months' => $accountingMonth,
             'accounting_year' => $accountingYear,
         ]);

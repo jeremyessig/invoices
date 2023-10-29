@@ -3,32 +3,50 @@
 {% block title %}AccountingMonth{% endblock %}
 
 {% block main %}
-    <h1>AccountingMonth</h1>
+    <h1>{{accounting_month.label}} {{ accounting_year.label }}</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ accounting_month.id }}</td>
-            </tr>
-            <tr>
-                <th>Label</th>
-                <td>{{ accounting_month.label }}</td>
-            </tr>
-            <tr>
-                <th>StartAt</th>
-                <td>{{ accounting_month.startAt ? accounting_month.startAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>EndAt</th>
-                <td>{{ accounting_month.endAt ? accounting_month.endAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="row g-3">
+        <div class="col-6">
+            <div class="hstack">
+                <h2 class="h2">Dépenses</h2>
+                <a class="btn btn-primary ms-auto" href="{{ path('app_accounting_month_entries_edit', {id: accounting_month.id}) }}">Ajouter</a>
+            </div>
+            <table class="table">
+                <tbody>
+                        <tr>
+                            <th scope="row">Prévues</th>
+                            <td>1200€</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Réelles</th>
+                            <td>1300€</td>
+                        </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-6">
+            <div class="hstack">
+                <h2 class="h2">Revenus</h2>
+                <a class="btn btn-primary ms-auto" href="#">Ajouter</a>
+            </div>
+            <table class="table">
+                <tbody>
+                        <tr>
+                            <th scope="row">Prévues</th>
+                            <td>1200€</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Réelles</th>
+                            <td>1300€</td>
+                        </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-    <a href="{{ path('app_accounting_month_index') }}">back to list</a>
+    <div class="hstack">
+        <a class="btn btn-primary" href="{{ path('app_accounting_year_month_show', {id: accounting_year.id}) }}">Retour</a>
 
-    <a href="{{ path('app_accounting_month_edit', {'id': accounting_month.id}) }}">edit</a>
-
-    {{ include('accounting_month/_delete_form.html.twig') }}
+        {{ include('accounting_month/_delete_form.html.twig') }}
+    </div>
 {% endblock %}

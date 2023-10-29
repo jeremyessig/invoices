@@ -1,0 +1,83 @@
+<div
+    {{ attributes }}
+>
+
+    {{ form_start(form) }}
+        <table class="table table-borderless form-no-mb">
+            <thead>
+                <tr class="row">
+                    <th class="col-md-2" >Date</th>
+                    <th class="col-md-1" >Valeur</th>
+                    <th class="col-md-4" >Libellé</th>
+                    <th class="col-md-2" >Catégorie</th>
+                    <th class="col-md-2" >Etiquettes</th>
+                    <th class="col-md-1" ></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for key, itemForm in form.accountingEntries %}
+                    <tr class="row">
+                        <td class="col-md-1">
+                            {{ form_row(itemForm.date, {
+                                label: false,
+                                row_attr: {class: 'mb-1'},
+                                attr: {
+                                }
+                            }) }}
+                        </td>
+                        <td class="col-1">
+                            {{ form_row(itemForm.amount, {
+                                label: false,
+                                row_attr: {class: 'mb-1'},
+                                attr: {
+                                }
+                            }) }}
+                        </td>
+                        <td class="col-md-4">
+                            {{ form_row(itemForm.label, {
+                                label: false,
+                                row_attr: {class: 'mb-1'},
+                                attr: {
+                                    placeholder: 'Libellé'
+                                }
+                            }) }}
+                        </td>
+                        {# <td class="col-md-2">
+                            {{ form_row(itemForm.description, {
+                                label: false,
+                                row_attr: {class: 'mb-1'},
+                                attr: {
+                                    placeholder: 'Walk the pygmy hippo'
+                                }
+                            }) }}
+                        </td> #}
+                        <td class="col-md-2">
+                            {{ form_row(itemForm.accountingCategory, {
+                                label: false,
+                                row_attr: {class: 'mb-1'},
+                                attr: {
+                                    placeholder: 'Walk the pygmy hippo'
+                                }
+                            }) }}
+                        </td>
+                        <td class="col-md-3">
+                            {{ form_row(itemForm.accountingTags, {
+                                label: false,
+                                row_attr: {class: 'mb-1'},
+                                attr: {
+                                }
+                            }) }}
+                        </td>
+                        <td class="col-md-1"> 
+                            {{ form_row(itemForm.vars.button_delete, {label: 'X', attr: {class: 'btn btn-outline-danger'}}) }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {{ form_widget(form.accountingEntries.vars.button_add, {label: '+ Add Item', attr: {class: 'btn btn-outline-primary'}}) }}
+
+        <button type="submit" class="btn btn-success" formnovalidate>Save</button>
+    {{ form_end(form) }}
+</div>

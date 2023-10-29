@@ -9,9 +9,9 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Label</th>
-                <th>StartAt</th>
-                <th>EndAt</th>
+                <th>Libellé</th>
+                <th>Début</th>
+                <th>FIn</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -20,11 +20,11 @@
             <tr>
                 <td>{{ accounting_month.id }}</td>
                 <td>{{ accounting_month.label }}</td>
-                <td>{{ accounting_month.startAt ? accounting_month.startAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ accounting_month.endAt ? accounting_month.endAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ accounting_month.startAt ? accounting_month.startAt|date('d/m/Y') : '' }}</td>
+                <td>{{ accounting_month.endAt ? accounting_month.endAt|date('d/m/Y') : '' }}</td>
                 <td>
-                    <a href="{{ path('app_accounting_month_show', {'id': accounting_month.id}) }}">show</a>
-                    <a href="{{ path('app_accounting_month_edit', {'id': accounting_month.id}) }}">edit</a>
+                    <a class="btn btn-primary btn-sm" href="{{ path('app_accounting_month_show', {'id': accounting_month.id}) }}">Voir</a>
+                    <a class="btn btn-primary btn-sm" href="{{ path('app_accounting_month_edit', {'id': accounting_month.id}) }}">Editer</a>
                 </td>
             </tr>
         {% else %}

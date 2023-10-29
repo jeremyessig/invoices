@@ -17,7 +17,7 @@ class AccountingEntry
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $date = null;
+    private ?\DateTime $date = null;
 
     #[ORM\Column]
     private ?int $amount = null;
@@ -56,12 +56,12 @@ class AccountingEntry
         return $this->id;
     }
 
-    public function getDate(): ?\DateTimeImmutable
+    public function getDate(): ?\DateTime
     {
         return $this->date;
     }
 
-    public function setDate(\DateTimeImmutable $date): static
+    public function setDate(?\DateTime $date): static
     {
         $this->date = $date;
 
@@ -177,5 +177,10 @@ class AccountingEntry
         }
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->getLabel();
     }
 }

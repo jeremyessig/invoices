@@ -32,7 +32,7 @@ class AccountingMonth
     #[ORM\JoinColumn(nullable: false)]
     private ?User $owner = null;
 
-    #[ORM\OneToMany(mappedBy: 'accountingMonth', targetEntity: AccountingEntry::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'accountingMonth', targetEntity: AccountingEntry::class, orphanRemoval: true, cascade: ['persist'])]
     private Collection $accountingEntries;
 
     #[ORM\OneToMany(mappedBy: 'accountingMonth', targetEntity: AccountingPlanned::class, orphanRemoval: true)]

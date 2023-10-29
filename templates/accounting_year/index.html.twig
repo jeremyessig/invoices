@@ -9,8 +9,8 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th>StartAt</th>
-                <th>EndAt</th>
+                <th>Début</th>
+                <th>Fin</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -18,10 +18,11 @@
         {% for accounting_year in accounting_years %}
             <tr>
                 <td>{{ accounting_year.id }}</td>
-                <td>{{ accounting_year.startAt ? accounting_year.startAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ accounting_year.endAt ? accounting_year.endAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ accounting_year.startAt ? accounting_year.startAt|date('d/m/Y') : '' }}</td>
+                <td>{{ accounting_year.endAt ? accounting_year.endAt|date('d/m/Y') : '' }}</td>
                 <td>
-                    <a class="btn btn-primary btn-sm" href="{{ path('app_accounting_year_show', {'id': accounting_year.id}) }}">Voir</a>
+                    <a class="btn btn-primary btn-sm" href="{{ path('app_accounting_year_month_show', {'id': accounting_year.id}) }}">Comptes</a>
+                    <a class="btn btn-primary btn-sm" href="#">Statistiques</a>
                     <a class="btn btn-primary btn-sm" href="{{ path('app_accounting_year_edit', {'id': accounting_year.id}) }}">Editer</a>
                 </td>
             </tr>

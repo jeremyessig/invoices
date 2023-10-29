@@ -155,4 +155,9 @@ class AccountingCategory
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return $this->getLabel();
+    }
 }

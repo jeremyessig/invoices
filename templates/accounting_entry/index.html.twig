@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}AccountingEntry index{% endblock %}
+
+{% block body %}
+    <h1>AccountingEntry index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Label</th>
+                <th>Description</th>
+                <th>IsIncome</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for accounting_entry in accounting_entries %}
+            <tr>
+                <td>{{ accounting_entry.id }}</td>
+                <td>{{ accounting_entry.date ? accounting_entry.date|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ accounting_entry.amount }}</td>
+                <td>{{ accounting_entry.label }}</td>
+                <td>{{ accounting_entry.description }}</td>
+                <td>{{ accounting_entry.isIncome ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('app_accounting_entry_show', {'id': accounting_entry.id}) }}">show</a>
+                    <a href="{{ path('app_accounting_entry_edit', {'id': accounting_entry.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_accounting_entry_new') }}">Create new</a>
+{% endblock %}

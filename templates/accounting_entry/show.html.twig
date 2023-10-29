@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}AccountingEntry{% endblock %}
+
+{% block body %}
+    <h1>AccountingEntry</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ accounting_entry.id }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ accounting_entry.date ? accounting_entry.date|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Amount</th>
+                <td>{{ accounting_entry.amount }}</td>
+            </tr>
+            <tr>
+                <th>Label</th>
+                <td>{{ accounting_entry.label }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ accounting_entry.description }}</td>
+            </tr>
+            <tr>
+                <th>IsIncome</th>
+                <td>{{ accounting_entry.isIncome ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_accounting_entry_index') }}">back to list</a>
+
+    <a href="{{ path('app_accounting_entry_edit', {'id': accounting_entry.id}) }}">edit</a>
+
+    {{ include('accounting_entry/_delete_form.html.twig') }}
+{% endblock %}

@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\AccountingMonth;
 use App\Entity\AccountingEntry;
 use App\Form\AccountingMonthType;
-use App\Form\OutcomeType;
+use App\Form\TransactionType;
 use App\Repository\AccountingMonthRepository;
 use App\Repository\AccountingYearRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -80,12 +80,14 @@ class AccountingMonthController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/outcome', name: 'app_accounting_month_entries_edit', methods: ['GET', 'POST'])]
-    public function outcome(Request $request, AccountingMonth $accountingMonth, EntityManagerInterface $entityManager): Response
+    #[Route('/{id}/transactions/outcome', name: 'app_accounting_month_entries_outcome_edit', methods: ['GET', 'POST'])]
+    public function transactionOutcome(Request $request, AccountingMonth $accountingMonth, EntityManagerInterface $entityManager): Response
     {
         /** @var Form $form */
-        $form = $this->createForm(OutcomeType::class, $accountingMonth);
+        $form = $this->createForm(TransactionType::class, $accountingMonth);
         $form->handleRequest($request);
+
+        $isIncome = $request->query->get('income');
 
         if ($form->isSubmitted() && $form->isValid()) {
             // Ajout l'utilisateur courant à chaque sous formulaires
@@ -100,9 +102,39 @@ class AccountingMonthController extends AbstractController
             return $this->redirectToRoute('app_accounting_month_show', ['id' => $accountingMonth->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('accounting_month/outcome.html.twig', [
+        return $this->render('accounting_month/transaction.html.twig', [
             'accounting_month' => $accountingMonth,
             'form' => $form,
+            'title' => 'Dépenses'
+        ]);
+    }
+
+    #[Route('/{id}/transactions/income', name: 'app_accounting_month_entries_income_edit', methods: ['GET', 'POST'])]
+    public function transactionIncome(Request $request, AccountingMonth $accountingMonth, EntityManagerInterface $entityManager): Response
+    {
+        /** @var Form $form */
+        $form = $this->createForm(TransactionType::class, $accountingMonth);
+        $form->handleRequest($request);
+
+        //$isIncome = $request->query->get('income');
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Ajout l'utilisateur courant à chaque sous formulaires
+            foreach ($form->get('accountingEntries') as $subForm) {
+                /** @var AccountingEntry $entryForm */
+                $entryForm = $subForm->getData();
+                $entryForm->setOwner($this->getUser());
+                $entryForm->setIsIncome(true);
+            }
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_accounting_month_show', ['id' => $accountingMonth->getId()], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('accounting_month/transaction.html.twig', [
+            'accounting_month' => $accountingMonth,
+            'form' => $form,
+            'title' => 'Revenus'
         ]);
     }
 

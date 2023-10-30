@@ -9,7 +9,7 @@
         <div class="col-6">
             <div class="hstack">
                 <h2 class="h2">Dépenses</h2>
-                <a class="btn btn-primary ms-auto" href="{{ path('app_accounting_month_entries_edit', {id: accounting_month.id}) }}">Ajouter</a>
+                <a class="btn btn-primary ms-auto" href="{{ path('app_accounting_month_entries_outcome_edit', {id: accounting_month.id}) }}">Ajouter</a>
             </div>
             <table class="table">
                 <tbody>
@@ -27,7 +27,7 @@
         <div class="col-6">
             <div class="hstack">
                 <h2 class="h2">Revenus</h2>
-                <a class="btn btn-primary ms-auto" href="#">Ajouter</a>
+                <a class="btn btn-primary ms-auto" href="{{ path('app_accounting_month_entries_income_edit', {id: accounting_month.id}) }}">Ajouter</a>
             </div>
             <table class="table">
                 <tbody>

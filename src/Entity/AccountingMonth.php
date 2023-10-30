@@ -6,6 +6,7 @@ use App\Repository\AccountingMonthRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: AccountingMonthRepository::class)]
 class AccountingMonth
@@ -32,6 +33,7 @@ class AccountingMonth
     #[ORM\JoinColumn(nullable: false)]
     private ?User $owner = null;
 
+    #[assert\Valid()]
     #[ORM\OneToMany(mappedBy: 'accountingMonth', targetEntity: AccountingEntry::class, orphanRemoval: true, cascade: ['persist'])]
     private Collection $accountingEntries;
 

@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\AccountingMonth;
 use App\Entity\AccountingEntry;
 use App\Form\AccountingMonthType;
+use App\Form\IncomeType;
+use App\Form\OutcomeType;
 use App\Form\TransactionType;
 use App\Repository\AccountingMonthRepository;
 use App\Repository\AccountingYearRepository;
@@ -84,18 +86,18 @@ class AccountingMonthController extends AbstractController
     public function transactionOutcome(Request $request, AccountingMonth $accountingMonth, EntityManagerInterface $entityManager): Response
     {
         /** @var Form $form */
-        $form = $this->createForm(TransactionType::class, $accountingMonth);
+        $form = $this->createForm(OutcomeType::class, $accountingMonth);
         $form->handleRequest($request);
 
         $isIncome = $request->query->get('income');
 
         if ($form->isSubmitted() && $form->isValid()) {
             // Ajout l'utilisateur courant à chaque sous formulaires
-            foreach ($form->get('accountingEntries') as $subForm) {
+            foreach ($form->get('outcomes') as $subForm) {
                 /** @var AccountingEntry $entryForm */
                 $entryForm = $subForm->getData();
                 $entryForm->setOwner($this->getUser());
-                $entryForm->setIsIncome(false);
+                // $entryForm->setIsIncome(false);
             }
             $entityManager->flush();
 
@@ -113,18 +115,18 @@ class AccountingMonthController extends AbstractController
     public function transactionIncome(Request $request, AccountingMonth $accountingMonth, EntityManagerInterface $entityManager): Response
     {
         /** @var Form $form */
-        $form = $this->createForm(TransactionType::class, $accountingMonth);
+        $form = $this->createForm(IncomeType::class, $accountingMonth);
         $form->handleRequest($request);
 
         //$isIncome = $request->query->get('income');
 
         if ($form->isSubmitted() && $form->isValid()) {
             // Ajout l'utilisateur courant à chaque sous formulaires
-            foreach ($form->get('accountingEntries') as $subForm) {
+            foreach ($form->get('incomes') as $subForm) {
                 /** @var AccountingEntry $entryForm */
                 $entryForm = $subForm->getData();
                 $entryForm->setOwner($this->getUser());
-                $entryForm->setIsIncome(true);
+                //$entryForm->setIsIncome(true);
             }
             $entityManager->flush();
 

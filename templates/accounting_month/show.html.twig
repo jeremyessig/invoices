@@ -6,23 +6,30 @@
     <h1>{{accounting_month.label}} {{ accounting_year.label }}</h1>
 
     <div class="row g-3">
-        <div class="col-6">
-            <div class="hstack">
-                <h2 class="h2">Dépenses</h2>
-                <a class="btn btn-primary ms-auto" href="{{ path('app_accounting_month_entries_outcome_edit', {id: accounting_month.id}) }}">Ajouter</a>
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-title">
+                        <h2 class="h4">Dépenses</h2>
+                    </div>
+                    
+                    <div class="hstack">
+                        <a class="btn btn-primary ms-auto" href="{{ path('app_accounting_month_entries_outcome_edit', {id: accounting_month.id}) }}">Ajouter</a>
+                    </div>
+                    <table class="table">
+                        <tbody>
+                                <tr>
+                                    <th scope="row">Prévues</th>
+                                    <td>1200€</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Réelles</th>
+                                    <td>1300€</td>
+                                </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <table class="table">
-                <tbody>
-                        <tr>
-                            <th scope="row">Prévues</th>
-                            <td>1200€</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Réelles</th>
-                            <td>1300€</td>
-                        </tr>
-                </tbody>
-            </table>
         </div>
         <div class="col-6">
             <div class="hstack">

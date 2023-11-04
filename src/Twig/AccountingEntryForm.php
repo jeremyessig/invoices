@@ -14,6 +14,8 @@ namespace App\Twig;
 
 use App\Entity\AccountingMonth;
 use App\Form\AccountingMonthType;
+use App\Form\IncomeType;
+use App\Form\OutcomeType;
 use App\Form\TransactionType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
@@ -33,8 +35,15 @@ class AccountingEntryForm extends AbstractController
 
     protected function instantiateForm(): FormInterface
     {
+
+        if ($this->getFormName() === "outcome") {
+            return $this->createForm(
+                OutcomeType::class,
+                $this->accountingMonth
+            );
+        }
         return $this->createForm(
-            TransactionType::class,
+            IncomeType::class,
             $this->accountingMonth
         );
     }

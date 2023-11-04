@@ -33,13 +33,6 @@ class AccountingEntry
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\Column]
-    private ?bool $isIncome = null;
-
-    #[ORM\ManyToOne(inversedBy: 'accountingEntries')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?AccountingMonth $accountingMonth = null;
-
     #[ORM\ManyToOne(inversedBy: 'accountingEntries')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $owner = null;
@@ -50,6 +43,12 @@ class AccountingEntry
 
     #[ORM\ManyToMany(targetEntity: AccountingTag::class, mappedBy: 'accountingEntries')]
     private Collection $accountingTags;
+
+    #[ORM\ManyToOne(inversedBy: 'incomes')]
+    private ?AccountingMonth $accountingMonthIncome = null;
+
+    #[ORM\ManyToOne(inversedBy: 'outcomes')]
+    private ?AccountingMonth $accountingMonthOutcome = null;
 
     public function __construct()
     {
@@ -109,30 +108,6 @@ class AccountingEntry
         return $this;
     }
 
-    public function isIsIncome(): ?bool
-    {
-        return $this->isIncome;
-    }
-
-    public function setIsIncome(bool $isIncome): static
-    {
-        $this->isIncome = $isIncome;
-
-        return $this;
-    }
-
-    public function getAccountingMonth(): ?AccountingMonth
-    {
-        return $this->accountingMonth;
-    }
-
-    public function setAccountingMonth(?AccountingMonth $accountingMonth): static
-    {
-        $this->accountingMonth = $accountingMonth;
-
-        return $this;
-    }
-
     public function getOwner(): ?User
     {
         return $this->owner;
@@ -187,5 +162,29 @@ class AccountingEntry
     public function __toString()
     {
         return $this->getLabel();
+    }
+
+    public function getAccountingMonthIncome(): ?AccountingMonth
+    {
+        return $this->accountingMonthIncome;
+    }
+
+    public function setAccountingMonthIncome(?AccountingMonth $accountingMonthIncome): static
+    {
+        $this->accountingMonthIncome = $accountingMonthIncome;
+
+        return $this;
+    }
+
+    public function getAccountingMonthOutcome(): ?AccountingMonth
+    {
+        return $this->accountingMonthOutcome;
+    }
+
+    public function setAccountingMonthOutcome(?AccountingMonth $accountingMonthOutcome): static
+    {
+        $this->accountingMonthOutcome = $accountingMonthOutcome;
+
+        return $this;
     }
 }

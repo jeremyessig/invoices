@@ -8,6 +8,7 @@ use App\Form\AccountingMonthType;
 use App\Form\AccountingYearType;
 use App\Repository\AccountingMonthRepository;
 use App\Repository\AccountingYearRepository;
+use App\Service\MonthGenerator;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -34,7 +35,7 @@ class AccountingYearController extends AbstractController
     }
 
     #[Route('/new', name: 'app_accounting_year_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, MonthGenerator $monthGenerator): Response
     {
         $accountingYear = new AccountingYear();
         $accountingYear->setStartAt(new DateTimeImmutable(date('Y') . '-01-01'));
@@ -44,8 +45,12 @@ class AccountingYearController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var AccountingYear $year */
+            $year = $form->getData();
+            $monthGenerator->generate($year->getStartAt(), $year->getEndAt(), $year);
+
             $entityManager->persist($accountingYear);
-            $entityManager->flush();
+            //$entityManager->flush();
 
             return $this->redirectToRoute('app_accounting_year_index', [], Response::HTTP_SEE_OTHER);
         }

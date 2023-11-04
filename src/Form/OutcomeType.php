@@ -10,12 +10,12 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\UX\LiveComponent\Form\Type\LiveCollectionType;
 
-class TransactionType extends AbstractType
+class OutcomeType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('accountingEntries', LiveCollectionType::class, [
+            ->add('outcomes', LiveCollectionType::class, [
                 'entry_type' => AccountingEntryType::class,
                 'entry_options' => ['label' => false],
                 'label' => false,

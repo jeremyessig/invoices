@@ -33,17 +33,23 @@ class AccountingMonth
     #[ORM\JoinColumn(nullable: false)]
     private ?User $owner = null;
 
-    #[assert\Valid()]
-    #[ORM\OneToMany(mappedBy: 'accountingMonth', targetEntity: AccountingEntry::class, orphanRemoval: true, cascade: ['persist'])]
-    private Collection $accountingEntries;
 
     #[ORM\OneToMany(mappedBy: 'accountingMonth', targetEntity: AccountingPlanned::class, orphanRemoval: true)]
     private Collection $accountingPlanneds;
 
+    #[Assert\Valid()]
+    #[ORM\OneToMany(mappedBy: 'accountingMonthIncome', targetEntity: AccountingEntry::class, cascade: ['persist'])]
+    private Collection $incomes;
+
+    #[Assert\Valid()]
+    #[ORM\OneToMany(mappedBy: 'accountingMonthOutcome', targetEntity: AccountingEntry::class, cascade: ['persist'])]
+    private Collection $outcomes;
+
     public function __construct()
     {
-        $this->accountingEntries = new ArrayCollection();
         $this->accountingPlanneds = new ArrayCollection();
+        $this->incomes = new ArrayCollection();
+        $this->outcomes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -112,36 +118,6 @@ class AccountingMonth
     }
 
     /**
-     * @return Collection<int, AccountingEntry>
-     */
-    public function getAccountingEntries(): Collection
-    {
-        return $this->accountingEntries;
-    }
-
-    public function addAccountingEntry(AccountingEntry $accountingEntry): static
-    {
-        if (!$this->accountingEntries->contains($accountingEntry)) {
-            $this->accountingEntries->add($accountingEntry);
-            $accountingEntry->setAccountingMonth($this);
-        }
-
-        return $this;
-    }
-
-    public function removeAccountingEntry(AccountingEntry $accountingEntry): static
-    {
-        if ($this->accountingEntries->removeElement($accountingEntry)) {
-            // set the owning side to null (unless already changed)
-            if ($accountingEntry->getAccountingMonth() === $this) {
-                $accountingEntry->setAccountingMonth(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, AccountingPlanned>
      */
     public function getAccountingPlanneds(): Collection
@@ -174,5 +150,65 @@ class AccountingMonth
     public function __toString()
     {
         return $this->getLabel();
+    }
+
+    /**
+     * @return Collection<int, AccountingEntry>
+     */
+    public function getIncomes(): Collection
+    {
+        return $this->incomes;
+    }
+
+    public function addIncome(AccountingEntry $income): static
+    {
+        if (!$this->incomes->contains($income)) {
+            $this->incomes->add($income);
+            $income->setAccountingMonthIncome($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIncome(AccountingEntry $income): static
+    {
+        if ($this->incomes->removeElement($income)) {
+            // set the owning side to null (unless already changed)
+            if ($income->getAccountingMonthIncome() === $this) {
+                $income->setAccountingMonthIncome(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, AccountingEntry>
+     */
+    public function getOutcomes(): Collection
+    {
+        return $this->outcomes;
+    }
+
+    public function addOutcome(AccountingEntry $outcome): static
+    {
+        if (!$this->outcomes->contains($outcome)) {
+            $this->outcomes->add($outcome);
+            $outcome->setAccountingMonthOutcome($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOutcome(AccountingEntry $outcome): static
+    {
+        if ($this->outcomes->removeElement($outcome)) {
+            // set the owning side to null (unless already changed)
+            if ($outcome->getAccountingMonthOutcome() === $this) {
+                $outcome->setAccountingMonthOutcome(null);
+            }
+        }
+
+        return $this;
     }
 }
